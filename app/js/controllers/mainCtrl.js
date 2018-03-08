@@ -168,20 +168,20 @@ function MainCtrl($scope,
 
 
         $scope.showContact = function (contact) {
-            var params = {contactId: contact.getContactId()};
+            var params = {userName: contact.contact.userName};
             $state.go('home.contactDetails', params);
         };
 
+        $scope.showContacts = function (contact) {
+            var params = {number: contact.internal.number};
+            $state.go('home.contactDetails', params);
+        };
         $scope.showFavorites = function () {
             $state.go('home.favorites');
         };
 
         $scope.showGroups = function () {
             $state.go('home.groups');
-        };
-
-        $scope.showContacts = function () {
-            $state.go('home.contacts');
         };
 
         $scope.showCallLog = function () {

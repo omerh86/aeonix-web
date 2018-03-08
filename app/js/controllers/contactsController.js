@@ -1,6 +1,6 @@
-function PhoneContactsLink() {}
+function PhoneContactsLink() { }
 
-PhoneContactsLink.prototype.goBack = function($state) {
+PhoneContactsLink.prototype.goBack = function ($state) {
     $state.go('home.contacts');
 }
 
@@ -37,11 +37,10 @@ function ContactsController($rootScope, $scope, contactSrv, callLogSrv, backNavi
         $scope.search = search;
         $scope.loadMoreSearchItems = loadMoreSearchItems;
 
-        $scope.$on('$stateChangeStart',onStateChangeStart);
+        $scope.$on('$stateChangeStart', onStateChangeStart);
         $scope.$on("$destroy", onDestroy);
 
         $scope.searchInput = "";
-        $scope.contactList = contactSrv.getPhoneContacts("", 0, 20);
         $scope.missedCallsCounter = callLogSrv.getMissedCallsCounter();
         $scope.searchResult = [];
 
@@ -54,4 +53,4 @@ function ContactsController($rootScope, $scope, contactSrv, callLogSrv, backNavi
 }
 
 var controllersModule = angular.module('aeonixApp.controllers');
-controllersModule.controller('contactsController',['$rootScope', '$scope', 'contactSrv','callLogSrv', 'backNavigationSrv', ContactsController]);
+controllersModule.controller('contactsController', ['$rootScope', '$scope', 'contactSrv', 'callLogSrv', 'backNavigationSrv', ContactsController]);

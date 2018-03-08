@@ -218,6 +218,7 @@ function ChatSrv($rootScope, infoSrv, contactSrv, loginSrv, storageSrv, utilsSrv
         function getOrAddChat(contact) {
             var logger = serviceLogger.logMethodCall(arguments, eLogLevel.finer);
 
+
             var chat = findChatByContact(contact);
             if (!chat) {
                 contactSrv.persist(contact);

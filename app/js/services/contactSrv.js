@@ -126,7 +126,7 @@ function ContactSrv($rootScope, infoSrv, pictureSrv, storageSrv, loginSrv) {
         }
         return deviceRawContacts;
     }
-    
+
     function findDeviceContacts(number) {
         var deviceContacts = _getContactsByNumber(allContacts.externalUser, number, true);
         if (deviceContacts.length == 0) {
@@ -184,14 +184,32 @@ function ContactSrv($rootScope, infoSrv, pictureSrv, storageSrv, loginSrv) {
         return serverCacheContacts[0];
     }
 
-    function getServerCacheContactByContactId(contactId) {
+    function getCacheContactsByContactId(contactId) {
         var serverCacheContacts = [];
         if (contactId.idType.value == eIdType.alias.value) {
             serverCacheContacts = _getContactsByNumber(allContacts.serverUser, contactId.id, false);
+            serverCacheContacts = serverCacheContacts.concat(_getContactsByNumber(allContacts.externalUser, contactId.id, true));
+
         } else {
             serverCacheContacts = _getContactsByName(allContacts.serverUser, contactId.id, false);
+            serverCacheContacts = serverCacheContacts.concat(_getContactsByName(allContacts.externalUser, contactId.id, true));
         }
-        return serverCacheContacts[0];
+        return serverCacheContacts;
+    }
+
+    function getCacheContactsByNumber(number) {
+        var serverCacheContacts = [];
+        serverCacheContacts = _getContactsByNumber(allContacts.serverUser, number, false);
+        serverCacheContacts = serverCacheContacts.concat(_getContactsByNumber(allContacts.externalUser, number, true));
+        return serverCacheContacts;
+    }
+
+    function getCacheContactByUserName(userName) {
+        var contact = _getContactByUserName(allContacts.serverUser, userName, false);
+        if (!contact) {
+            contact = _getContactByUserName(allContacts.externalUser, userName, true);
+        }
+        return contact;
     }
 
     function addOrUpdateContact(contact) {
@@ -430,6 +448,14 @@ function ContactSrv($rootScope, infoSrv, pictureSrv, storageSrv, loginSrv) {
         });
     }
 
+    function _getContactByUserName(collectionOfcontacts, name, isExternalContact) {
+        return _.find(collectionOfcontacts, function (i) {
+            if (i.contact.userName.toLowerCase() == name.toLowerCase()) {
+                _updateContactLastSearchKey(i, i.contact.aliases[0] && i.contact.aliases[0].completeAliasName ? i.contact.aliases[0].completeAliasName : i.contact.extAliases[0], isExternalContact)
+                return i;
+            }
+        });
+    }
 
     function _getContactsByPartialNumber(collectionOfcontacts, number, isExternalContact) {
         var relevantContacts = [];
@@ -521,7 +547,6 @@ function ContactSrv($rootScope, infoSrv, pictureSrv, storageSrv, loginSrv) {
     this._onPresenceStateEvent = onPresenceStateEvent;
     this._onPresencesListResponse = onPresencesListResponse;
 
-    this.getServerCacheContactByContactId = getServerCacheContactByContactId;
     this.addOrUpdateContactWithContactInfo = addOrUpdateContactWithContactInfo;
     this.addOrUpdateContactWithGroupInfo = addOrUpdateContactWithGroupInfo;
     this.persist = persist;
@@ -539,6 +564,9 @@ function ContactSrv($rootScope, infoSrv, pictureSrv, storageSrv, loginSrv) {
     this.findDeviceContacts = findDeviceContacts
     this.getServerContactByNumber = getServerContactByNumber
     this.getServerContactByUserName = getServerContactByUserName;
+    this.getCacheContactByUserName = getCacheContactByUserName;
+    this.getCacheContactsByContactId = getCacheContactsByContactId;
+    this.getCacheContactsByNumber = getCacheContactsByNumber;
     //todo michael add releaseContact
 
 

@@ -1,4 +1,4 @@
-var appLogger =logSrv.getLogger("aeonixApp");
+var appLogger = logSrv.getLogger("aeonixApp");
 
 
 angular.module('aeonixApp.controllers', []);
@@ -32,7 +32,7 @@ var aeonixApp = angular.module(
         'ngLocalize.Config',
         'ngTap',
         'angularLazyImg'
-       
+
     ]
 ).value(
     'localeSupported', [
@@ -51,8 +51,8 @@ function onAppRun($rootScope, deviceSrv, utilsSrv, loginSrv, $state, locale, $do
     appLogger.fine("onAppRun");
     $rootScope._ = window._;
     try {
-        $document.on('keydown', function(e){
-            if(e.which === 8 && e.target.nodeName !== "INPUT" && e.target.nodeName !== "TEXTAREA"){ // you can add others here.
+        $document.on('keydown', function (e) {
+            if (e.which === 8 && e.target.nodeName !== "INPUT" && e.target.nodeName !== "TEXTAREA") { // you can add others here.
                 e.preventDefault();
             }
         });
@@ -64,151 +64,151 @@ function onAppRun($rootScope, deviceSrv, utilsSrv, loginSrv, $state, locale, $do
         });
 
         // capture user interface mouse activity
-        $document.on('click', function (e) {                            
-            appLogger.fine("UI ACTIVITY: click element/class: " + utilsSrv.elementToLog(e.target));                            
+        $document.on('click', function (e) {
+            appLogger.fine("UI ACTIVITY: click element/class: " + utilsSrv.elementToLog(e.target));
         });
 
-        $state.go('login');
+        $state.go('home');
 
-    }catch(err){
+    } catch (err) {
         appLogger.error(err);
     }
 }
 
 function onAppConfig($urlRouterProvider, $stateProvider) {
-  $urlRouterProvider.otherwise('/login');
-  $stateProvider
-      .state(
-      'login', {
-          url: '/login',
-          params: {'loginName': null, 'password':null},
-          templateUrl: 'views/login/login-page.html'
-      }
-  )
-      .state(
-      'loginDetail', {
-          url: '/login.detail',
-          params: {'password': null},
-          templateUrl: 'views/login/login-detail-page.html'
-      }
-  )
-      .state(
-      {
-          name: 'home',
-          url: "home",
-          templateUrl: "views/share/main_empty.html"
-      }
-  )
-       .state(
-        {
-            name: 'home.about',
-            url: '/about',
-            templateUrl: "views/about.html"
-        }
-  )
-      .state(
-      {
-          name: 'home.settings',
-          url: '/settings',
-          templateUrl: "views/settings/settings.html"
-      }
-  )
-      .state(
-      {
-          name: 'home.favorites',
-          url: '/favorites',
-          templateUrl: "views/contacts/favorites.html"
-      }
-  )
-      .state(
-      {
-         name: 'home.callLog',
-         url: '/callLog',
-         templateUrl: "views/contacts/callLog.html"
-      }
-  )
-      .state(
-      {
-         name: 'home.groups',
-         url: '/groups',
-         templateUrl: "views/contacts/groups.html"
-      }
-  )
-       .state(
-       {
-         name: 'home.contacts',
-         url: '/contacts',
-         templateUrl: "views/contacts/contacts.html"
-       }
-  )
-      .state(
-      {
-          name: 'home.chatList',
-          url: '/chatList',
-          templateUrl: "views/chats/chatList.html"
-      }
-  )
+    $urlRouterProvider.otherwise('/contacts');
+    $stateProvider
+        .state(
+            'login', {
+                url: '/login',
+                params: { 'loginName': null, 'password': null },
+                templateUrl: 'views/login/login-page.html'
+            }
+        )
+        .state(
+            'loginDetail', {
+                url: '/login.detail',
+                params: { 'password': null },
+                templateUrl: 'views/login/login-detail-page.html'
+            }
+        )
+        .state(
+            {
+                name: 'home',
+                url: "home",
+                templateUrl: "views/share/main_empty.html"
+            }
+        )
+        .state(
+            {
+                name: 'home.about',
+                url: '/about',
+                templateUrl: "views/about.html"
+            }
+        )
+        .state(
+            {
+                name: 'home.settings',
+                url: '/settings',
+                templateUrl: "views/settings/settings.html"
+            }
+        )
+        .state(
+            {
+                name: 'home.favorites',
+                url: '/favorites',
+                templateUrl: "views/contacts/favorites.html"
+            }
+        )
+        .state(
+            {
+                name: 'home.callLog',
+                url: '/callLog',
+                templateUrl: "views/contacts/callLog.html"
+            }
+        )
+        .state(
+            {
+                name: 'home.groups',
+                url: '/groups',
+                templateUrl: "views/contacts/groups.html"
+            }
+        )
+        .state(
+            {
+                name: 'home.contacts',
+                url: '/contacts',
+                templateUrl: "views/contacts/contacts.html"
+            }
+        )
+        .state(
+            {
+                name: 'home.chatList',
+                url: '/chatList',
+                templateUrl: "views/chats/chatList.html"
+            }
+        )
 
-      .state(
-      {
-          name: 'home.chat',
-          url: '/chat',
-          params: {'contactId': null},
-          templateUrl: "views/chats/chat.html"
-      }
-  )
-      .state(
-      {
-          name: 'home.calls',
-          url: '/calls',
-          params: {'call': null},
-          templateUrl: "views/calls/calls.html"
-      }
-  )
-      .state(
-      {
-          name: 'home.dialPad',
-          url: '/dialPad',
-          params: {'contactId': null},
-          templateUrl: "views/keypad/dialPad.html"
-      }
-  )   .state(
-      {
-         name: 'home.keypad',
-         url: '/keypad',
-         params: {'callNativeToken': null},
-         templateUrl: "views/keypad/keypad.html"
-      }
-  )
-      .state(
-      {
-          name: 'home.dialPadList',
-          url: '/dialPadList',
-          templateUrl: "views/keypad/dialPadList.html"
-      }
-  )
-      .state(
-      {
-          name: 'home.contactDetails',
-          url: '/contactDetails',
-          params: {'contactId': null},
-          templateUrl: "views/contacts/contactDetails.html"
-      }
-  )
-      .state(
-      {
-          name: 'home.changePassword',
-          url: '/changePassword',
-          templateUrl: "views/changePassword.html"
-      }
-  )
-      .state(
-      {
-          name: 'home.queue',
-          url: '/queue',
-          templateUrl: "views/calls/queue.html"
-      }
-  );
+        .state(
+            {
+                name: 'home.chat',
+                url: '/chat',
+                params: { 'contactId': null, 'userName': null, 'number': null },
+                templateUrl: "views/chats/chat.html"
+            }
+        )
+        .state(
+            {
+                name: 'home.calls',
+                url: '/calls',
+                params: { 'call': null },
+                templateUrl: "views/calls/calls.html"
+            }
+        )
+        .state(
+            {
+                name: 'home.dialPad',
+                url: '/dialPad',
+                params: { 'contactId': null },
+                templateUrl: "views/keypad/dialPad.html"
+            }
+        ).state(
+            {
+                name: 'home.keypad',
+                url: '/keypad',
+                params: { 'callNativeToken': null },
+                templateUrl: "views/keypad/keypad.html"
+            }
+        )
+        .state(
+            {
+                name: 'home.dialPadList',
+                url: '/dialPadList',
+                templateUrl: "views/keypad/dialPadList.html"
+            }
+        )
+        .state(
+            {
+                name: 'home.contactDetails',
+                url: '/contactDetails',
+               params: { 'contactId': null, 'userName': null, 'number': null },
+                templateUrl: "views/contacts/contactDetails.html"
+            }
+        )
+        .state(
+            {
+                name: 'home.changePassword',
+                url: '/changePassword',
+                templateUrl: "views/changePassword.html"
+            }
+        )
+        .state(
+            {
+                name: 'home.queue',
+                url: '/queue',
+                templateUrl: "views/calls/queue.html"
+            }
+        );
 }
 
 aeonixApp.factory('$exceptionHandler', function () {
@@ -218,34 +218,34 @@ aeonixApp.factory('$exceptionHandler', function () {
 });
 
 
-aeonixApp.run(["$rootScope", "deviceSrv", "utilsSrv", "loginSrv", "$state", 'locale','$document','$timeout',onAppRun]);
+aeonixApp.run(["$rootScope", "deviceSrv", "utilsSrv", "loginSrv", "$state", 'locale', '$document', '$timeout', onAppRun]);
 aeonixApp.config(onAppConfig);
 
-aeonixApp.config(function($provide) {
-  $provide.decorator("$rootScope", function($delegate) {
-    var Scope = $delegate.constructor;
-    var origBroadcast = Scope.prototype.$broadcast;
-    var origEmit = Scope.prototype.$emit;
+aeonixApp.config(function ($provide) {
+    $provide.decorator("$rootScope", function ($delegate) {
+        var Scope = $delegate.constructor;
+        var origBroadcast = Scope.prototype.$broadcast;
+        var origEmit = Scope.prototype.$emit;
 
-    Scope.prototype.$broadcast = function() {
-      try {
-        var arr = Array.prototype.slice.call(arguments);
-        var eventName = arr.splice(0,1);
-        appLogger.logCollapsed(eventName+" event has been broadcasted",arr,eLogLevel.finer);
-      }catch(e) {}
-      return origBroadcast.apply(this, arguments);
-    };
-    Scope.prototype.$emit = function() {
-      try {
-        var arr = Array.prototype.slice.call(arguments);
-        var eventName = arr.splice(0,1);
-        appLogger.logCollapsed(eventName+" event has been emitted",arr,eLogLevel.finer);
-      }catch(e) {}
+        Scope.prototype.$broadcast = function () {
+            try {
+                var arr = Array.prototype.slice.call(arguments);
+                var eventName = arr.splice(0, 1);
+                appLogger.logCollapsed(eventName + " event has been broadcasted", arr, eLogLevel.finer);
+            } catch (e) { }
+            return origBroadcast.apply(this, arguments);
+        };
+        Scope.prototype.$emit = function () {
+            try {
+                var arr = Array.prototype.slice.call(arguments);
+                var eventName = arr.splice(0, 1);
+                appLogger.logCollapsed(eventName + " event has been emitted", arr, eLogLevel.finer);
+            } catch (e) { }
 
-      return origEmit.apply(this, arguments);
-    };
-    return $delegate;
-  });
+            return origEmit.apply(this, arguments);
+        };
+        return $delegate;
+    });
 });
 
 
