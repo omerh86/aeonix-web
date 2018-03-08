@@ -1,0 +1,214 @@
+<div id="content" ng-controller="callLogController" class="intouch it-contacts" mobile-height style="overflow-y: hidden !important;">
+    <div class="block-search">
+        <div class="input">
+            <input dir="auto" type="text" class="form-control" ng-keydown="onKeyDown($event)" ng-model="searchInput" ng-model-options="{debounce: 1000}"
+                ng-change="search()" />
+            <i class="icon-elem icon-search"></i>
+            <i class="icon-elem icon-clear-all-search" ng-click="clearSearch()"></i>
+        </div>
+        <div class="cancel hide">
+            <a>Cancel</a>
+        </div>
+    </div>
+    <div class="menu-group">
+        <ul>
+            <li class="item-group" ng-click="showFavorites()">
+                <label>{{ 'messages.favorite' | i18n }}</label>
+            </li>
+            <li class="item-group" ng-click="onCallLogClicked()">
+                <label class="active">{{ 'messages.recent' | i18n }}
+                    <span class="recent-count" ng-if="missedCallsCounter.counter!=0">{{missedCallsCounter.counter}}</span>
+                </label>
+            </li>
+            <li class="item-group" ng-click="showGroups()">
+                <label>{{'messages.groups'| i18n }}</label>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="recent-tabs-bar menu-group" ng-show="searchInput==''">
+        <div class="recent-tab item-group" ng-model="contactsLists.recent.current" ng-class="{active:currentTab == 'allCalls'}" ng-click="showAllCalls()">
+            <a>{{'messages.all'|i18n}}</a>
+        </div>
+        <div class="recent-tab item-group" ng-model="contactsLists.recent.current" ng-class="{active:currentTab == 'missedCalls'}"
+            ng-click="showMissedCalls()">
+            <a>{{'messages.missed'|i18n }}</a>
+        </div>
+    </div>
+
+
+    <div class="contact-list" ng-if="searchInput==''" class="contact-list" mobile-height>
+
+        <div class="scrollme" ng-scrollbar rebuild-on="rebuild:me">
+            <div on-finish-render="loopController">
+                <div class="contact-item" ng-repeat="row in callLog track by $index" ng-click="toggleFolding($event, row.callLogID);">
+                    <div ng-show="row.hasDateTitle" class="date-title">{{row.callLog[0].startTime|callLogRecordDate:this:locale}}</div>
+                    <div class="contact-description">
+                        <div class="contact-icon">
+                            <img class="round-icon user-icon" lazy-img="{{row.user.internal.img}}" alt="" />
+                            <div ng-if="row.user|showStatus" class="block-prof-status status" ng-class="row.user|statusClassFromUser">
+                                <i class="icon-status" ng-class="row.user|statusClassFromUser"></i>
+                            </div>
+                        </div>
+                        <div class="contact-info">
+                            <h1 class="row_1">{{row.user|contactName:this}}</h1>
+                            <div class="row_2">
+                                <div class="left">
+                                    <!-- <div ng-class="row|callLogCallDirectionClass"></div> -->
+                                    <h2 ng-if="row.callLog[0].callType.toLowerCase() == 'outgoing' && !row.callLog[0].answered" class="material-icons call-direction-icon">call_missed_outgoing</h2>
+                                    <h2 ng-if="row.callLog[0].callType.toLowerCase() == 'outgoing' && row.callLog[0].answered" class="material-icons call-direction-icon">call_made</h2>
+                                    <h2 ng-if="row.callLog[0].callType.toLowerCase() == 'incoming'  && row.callLog[0].answered" class="material-icons call-direction-icon">call_received</h2>
+                                    <h2 ng-if="row.callLog[0].callType.toLowerCase() == 'incoming'  && !row.callLog[0].answered" class="material-icons call-direction-icon">call_missed</h2>
+                                    <h2> {{row.user.internal.number}}</h2>
+                                </div>
+                                <div class="right">
+                                    <h2 ng-if="row.callLog.length>1"> ({{row.callLog.length}}) </h2>
+                                    <h2>{{row.callLog[0].startTime|callLogRecordTime:locale}}</h2>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div ng-show="this[this.currentTab][row.callLogID]" class="row_3">
+
+                        <div ng-class="{'diabled-class': !row.user.internal.type.favoriteEnabled}" ng-click="!row.user.internal.type.favoriteEnabled || toggleFavorite($event, row.user)">
+                            <div>
+                                <i class="material-icons contact-icon"> {{row.user.internal.isFav ? 'star':'star_border'}}</i>
+                                <h3>favorite</h3>
+                            </div>
+                        </div>
+                        <div ng-class="{'diabled-class': !row.user.internal.type.callEnabled}" ng-click="!row.user.internal.type.callEnabled || makeCallToContact(row.user, false)">
+                            <div>
+                                <i class="material-icons contact-icon"> call</i>
+                                <h3>call</h3>
+                            </div>
+                        </div>
+                        <div ng-click="!row.user.internal.type.chatEnabled || chatWithContact(row.user)" ng-class="{'diabled-class': !row.user.internal.type.chatEnabled}">
+                            <div>
+                                <i class="material-icons contact-icon">chat_bubble_outline</i>
+                                <h3>message</h3>
+                            </div>
+                        </div>
+                        <div ng-click="showContact(row.user)">
+                            <div>
+                                <i class="material-icons contact-icon"> info</i>
+                                <h3>info</h3>
+                            </div>
+                        </div>
+                        <div ng-click="deleteRecent(row, $event, $index)">
+                            <div>
+                                <i class="material-icons contact-icon">delete</i>
+                                <h3>delete</h3>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <table ng-show="row.callLog.length > 0 && this[this.currentTab][row.callLogID]" class="compressed-info-table" style="width:100%;">
+                        <tbody>
+                            <tr class="call-history-row" ng-class="{'last':$last}" ng-repeat="log in row.callLog track by $index">
+                                <td>
+                                    <div ng-if="log.callType.toLowerCase() == 'outgoing' && !log.answered">
+                                        <h2 class="material-icons call-direction-icon">call_missed_outgoing</h2>
+                                        <h2>Outgoing missed</h2>
+                                    </div>
+                                    <div ng-if="log.callType.toLowerCase() == 'outgoing' && log.answered">
+                                        <h2 class="material-icons call-direction-icon">call_made</h2>
+                                        <h2>Outgoing</h2>
+                                    </div>
+                                    <div ng-if="log.callType.toLowerCase() == 'incoming' && log.answered">
+                                        <h2 class="material-icons call-direction-icon">call_received</h2>
+                                        <h2>Incoming</h2>
+                                    </div>
+                                    <div ng-if="log.callType.toLowerCase() == 'incoming' && !log.answered">
+                                        <h2 class="material-icons call-direction-icon">call_missed</h2>
+                                        <h2>Missed call</h2>
+                                    </div>
+                                </td>
+                                <td class="grow">
+                                    <h2 ng-bind-html="log.startTime | callLogRecordTime:locale"></h2>
+                                </td>
+                                <td>
+                                    <h2 ng-bind-html="log.callDuration | recentDuration : log.callDuration"></h2>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="contact-list" ng-if="searchInput!=''" mobile-height>
+
+        <div infinite-scroll="loadMoreSearchItems()" infinite-scroll-parent infinite-scroll-immediate-check="false" class="scrollme"
+            ng-scrollbar rebuild-on="rebuild:me">
+            <div class="contact-item" ng-repeat="contact in searchInstance.searchResult" on-finish-render="loopController" ng-click="showDiv = !showDiv">
+                <div class="contact-description">
+                    <div class="contact-icon">
+                        <img class="round-icon user-icon" lazy-img="{{contact.internal.img}}" alt="" />
+                        <div ng-if="contact|showStatus" class="block-prof-status status" ng-class="contact|statusClassFromUser">
+                            <i class="icon-status" ng-class="contact|statusClassFromUser"></i>
+                        </div>
+                    </div>
+                    <div class="contact-info">
+                        <div class="row_1">
+                            <h1 class="left" ng-bind-html="contact|contactName:this:searchInput"></h1>
+                        </div>
+                        <h2 class="row_2" ng-bind-html="contact.internal.lastSearchKey|searchHighlite:searchInput"></h2>
+                    </div>
+                </div>
+                <div ng-show="showDiv" class="row_3">
+                    <div ng-if="contact.internal.type.favoriteEnabled" ng-click="toggleFavorite($event, contact)">
+                        <div>
+                            <i class="material-icons contact-icon"> {{contact.internal.isFav ? 'star':'star_border'}}</i>
+                            <h3>favorite</h3>
+                        </div>
+                    </div>
+                    <div ng-if="contact.internal.type.callEnabled" ng-click="makeCallToContact(contact, false)">
+                        <div>
+                            <i class="material-icons contact-icon"> call</i>
+                            <h3>call</h3>
+                        </div>
+                    </div>
+                    <div ng-if="contact.internal.type.chatEnabled" ng-click="chatWithContact(contact)">
+                        <div>
+                            <i class="material-icons contact-icon">chat_bubble_outline</i>
+                            <h3>message</h3>
+                        </div>
+                    </div>
+                    <div ng-click="showContact(contact)">
+                        <div>
+                            <i class="material-icons contact-icon"> info</i>
+                            <h3>info</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/ng-template" id="deleteRecentModal.html">
+        <div class="modal-header">
+            <h3>Delete {{displayName}} from recent</h3>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to remove {{displayName}} from the recent list?</p>
+
+            <div ng-click="closeModal(true)" class="modal-button">
+                Yes
+            </div>
+            <div ng-click="closeModal(false)" class="modal-button">
+                Back
+            </div>
+        </div>
+    </script>
+
+
+</div>

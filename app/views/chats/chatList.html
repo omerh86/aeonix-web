@@ -1,0 +1,137 @@
+<div id="content" ng-controller="chatListController" mobile-height mobile-height>
+    <div class="block-search">
+        <div class="input">
+            <input dir="auto" type="text" class="form-control" ng-keydown="onKeyDown($event)" ng-model="searchFilter" ng-model-options="{debounce: 1000}"
+                ng-change="getContacts()" />
+            <i class="icon-elem icon-search"></i>
+            <i class="icon-elem icon-clear-all-search" ng-click="clearSearch()"></i>
+        </div>
+        <div class="cancel hide">
+            <a>Cancel</a>
+        </div>
+    </div>
+
+
+    <div class="contact-list" ng-if="chatList.length && searchFilter.length==0" mobile-height>
+
+        <div class="scrollme" ng-scrollbar rebuild-on="rebuild:me">
+            <div on-finish-render="loopController">
+                <div class="contact-item" ng-repeat="chat in chatList|limitTo:20" ng-click="showDiv = !showDiv">
+                    <div class="contact-description">
+                        <div class="contact-icon">
+                            <img class="round-icon user-icon" lazy-img="{{chat.contact.contact.img}}" alt="" />
+                            <div ng-if="chat.contact|showStatus" class="block-prof-status status" ng-class="chat.contact|statusClassFromUser">
+                                <i class="icon-status" ng-class="chat.contact|statusClassFromUser"></i>
+                            </div>
+                        </div>
+                        <div class="contact-info">
+                            <div class="row_1">
+                                <h1 class="left">{{chat.contact|contactName:this}}</h1>
+                                <div class="unseen-messages" ng-if="chat.numberOfUnseenMessages>0">{{chat.numberOfUnseenMessages}}</div>
+                            </div>
+
+                            <div class="row_2">
+                                <h2 class="left"> {{chat.lastMessage|limitTo:16}}</h2>
+                                <h2 class="right"> {{chat.lastMessageTime|imDate:locale}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="showDiv" class="row_3">
+                        <div ng-click="toggleFavorite($event, chat.contact)">
+                            <div>
+                                <i class="material-icons contact-icon"> {{chat.contact.internal.isFav ? 'star':'star_border'}}</i>
+                                <h3>favorite</h3>
+                            </div>
+                        </div>
+                        <div ng-click="makeCallToContact(chat.contact, false)">
+                            <div>
+                                <i class="material-icons contact-icon"> call</i>
+                                <h3>call</h3>
+                            </div>
+                        </div>
+                        <div ng-click="chatWithContact(chat.contact)">
+                            <div>
+                                <i class="material-icons contact-icon">chat_bubble_outline</i>
+                                <h3>message</h3>
+                            </div>
+                        </div>
+                        <div ng-click="deleteChat(chat, $event)">
+                            <div>
+                                <i class="material-icons contact-icon"> delete</i>
+                                <h3>delete</h3>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="contact-list" ng-if="searchFilter.length>0" mobile-height>
+
+        <div infinite-scroll="loadMoreSearchItems()" infinite-scroll-parent infinite-scroll-immediate-check="false" class="scrollme"
+            ng-scrollbar rebuild-on="rebuild:me">
+            <div class="contact-item" ng-repeat="contact in searchInstance.searchResult" on-finish-render="loopController" ng-click="showDiv = !showDiv">
+                <div class="contact-description">
+                    <div class="contact-icon">
+                        <img class="round-icon user-icon" lazy-img="{{contact.internal.img}}" alt="" />
+                        <div ng-if="contact|showStatus" class="block-prof-status status" ng-class="contact|statusClassFromUser">
+                            <i class="icon-status" ng-class="contact|statusClassFromUser"></i>
+                        </div>
+                    </div>
+                    <div class="contact-info">
+                        <div class="row_1">
+                            <h1 class="left" ng-bind-html="contact|contactName:this:searchFilter"></h1>
+                        </div>
+                        <h2 class="row_2" ng-bind-html="contact.internal.lastSearchKey|searchHighlite:searchFilter"></h2>
+                    </div>
+                </div>
+                <div ng-show="showDiv" class="row_3">
+                    <div ng-if="contact.internal.type.favoriteEnabled" ng-click="toggleFavorite($event, contact)">
+                        <div>
+                            <i class="material-icons contact-icon"> {{contact.internal.isFav ? 'star':'star_border'}}</i>
+                            <h3>favorite</h3>
+                        </div>
+                    </div>
+                    <div ng-if="contact.internal.type.callEnabled" ng-click="makeCallToContact(contact, false)">
+                        <div>
+                            <i class="material-icons contact-icon"> call</i>
+                            <h3>call</h3>
+                        </div>
+                    </div>
+                    <div ng-if="contact.internal.type.chatEnabled" ng-click="chatWithContact(contact)">
+                        <div>
+                            <i class="material-icons contact-icon">chat_bubble_outline</i>
+                            <h3>message</h3>
+                        </div>
+                    </div>
+                    <div ng-click="showContact(contact)">
+                        <div>
+                            <i class="material-icons contact-icon"> info</i>
+                            <h3>info</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/ng-template" id="deleteChatModal.html">
+        <div class="modal-header">
+            <h3>Delete the chat with {{displayName}}</h3>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete the chat with {{displayName}} ?</p>
+
+            <div ng-click="closeModal(true)" class="modal-button">
+                Yes
+            </div>
+            <div ng-click="closeModal(false)" class="modal-button">
+                Back
+            </div>
+        </div>
+    </script>

@@ -1,0 +1,48 @@
+@theme-color: #00688f;
+@main-color:#505050;
+@secondary-color:#979797;
+@dial-pad-bg-color:#e9f4f7;
+@border-color:#dedede;
+@contact-bg-color:#f2f7f9;
+
+@extra-tiny-font:0.7rem;
+@tiny-font:0.8rem;
+@small-font:1.2rem;
+@medium-font:1.3rem;
+@large-font:1.4rem;
+@icont-font-small:1.5rem;
+@icont-font-medium:2.1rem;
+
+label{
+    font-size: @large-font;
+    color: @main-color;
+    &.active{
+        color: @theme-color;
+        font-weight: bold;
+    }
+}
+
+h1{
+    font-size: @small-font;
+    color: @main-color;
+    line-height: 1.2em;
+}
+h2{
+    font-size: @tiny-font;
+    color: @secondary-color;
+    line-height: 1.2em;
+}
+h3{
+    font-size: @extra-tiny-font;
+    color: @main-color;
+    line-height: 1.2em;
+}
+
+@media (max-width:480px)  { 
+    @small-font:0.3rem;
+    @medium-font:0.6rem;
+    @large-font:0.9rem;
+}
+
+
+

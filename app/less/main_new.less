@@ -1,0 +1,88 @@
+
+@import "theme";
+#content{
+    flex-grow: 1;
+    background-color: white;
+}
+//Header
+#header {
+    background: none repeat scroll 0 0 @theme-color;
+    display: flex;
+
+    .app-details{
+        display: flex;
+        flex-grow: 1;
+        align-self: center;
+        .intouch-icon{
+            margin: 0.7rem;
+            align-self: center;
+        }
+        .icon-head-back{
+            margin: 0.7rem;
+            align-self: center;
+        }
+        .title{
+            margin: 0.7rem;
+            align-self: center;
+            font-size: @medium-font;
+            color: white;
+        }
+    }
+    .controls-profile{
+        align-self: center;
+        margin: 0.7rem;
+    }
+    .block-prof-status{
+        position: absolute;
+        top:10px;
+    }
+
+}
+.block-prof-status{
+   position: absolute;
+    top:1px;
+}
+
+#header a {
+    color: #fff;
+    text-decoration: none;
+}
+
+#header .back {
+    display: block;
+    float: left;
+    /* margin: 0 16px 0 0; */
+    width: 53px;
+    height: 53px;
+}
+//end header
+
+//tabs
+#menu{
+    padding: 13px 1px;
+    background-color: white;
+    border-bottom: 1px solid @border-color;
+    overflow: hidden;
+
+    .item-menu{
+        display: flex;
+        flex-direction: column;
+        a{
+            align-self: center;
+        }
+        .md-menu{
+            align-self: center;
+        }
+    }   
+}
+//
+
+.intouch{
+    display: flex;
+    flex-direction:column;
+    flex-grow: 1;
+}
+.highlighted{
+    color: @theme-color;
+}
+

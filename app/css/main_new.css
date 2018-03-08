@@ -1,0 +1,97 @@
+label {
+  font-size: 1.4rem;
+  color: #505050;
+}
+label.active {
+  color: #00688f;
+  font-weight: bold;
+}
+h1 {
+  font-size: 1.2rem;
+  color: #505050;
+  line-height: 1.2em;
+}
+h2 {
+  font-size: 0.8rem;
+  color: #979797;
+  line-height: 1.2em;
+}
+h3 {
+  font-size: 0.7rem;
+  color: #505050;
+  line-height: 1.2em;
+}
+#content {
+  flex-grow: 1;
+  background-color: white;
+}
+#header {
+  background: none repeat scroll 0 0 #00688f;
+  display: flex;
+}
+#header .app-details {
+  display: flex;
+  flex-grow: 1;
+  align-self: center;
+}
+#header .app-details .intouch-icon {
+  margin: 0.7rem;
+  align-self: center;
+}
+#header .app-details .icon-head-back {
+  margin: 0.7rem;
+  align-self: center;
+}
+#header .app-details .title {
+  margin: 0.7rem;
+  align-self: center;
+  font-size: 1.3rem;
+  color: white;
+}
+#header .controls-profile {
+  align-self: center;
+  margin: 0.7rem;
+}
+#header .block-prof-status {
+  position: absolute;
+  top: 10px;
+}
+.block-prof-status {
+  position: absolute;
+  top: 1px;
+}
+#header a {
+  color: #fff;
+  text-decoration: none;
+}
+#header .back {
+  display: block;
+  float: left;
+  /* margin: 0 16px 0 0; */
+  width: 53px;
+  height: 53px;
+}
+#menu {
+  padding: 13px 1px;
+  background-color: white;
+  border-bottom: 1px solid #dedede;
+  overflow: hidden;
+}
+#menu .item-menu {
+  display: flex;
+  flex-direction: column;
+}
+#menu .item-menu a {
+  align-self: center;
+}
+#menu .item-menu .md-menu {
+  align-self: center;
+}
+.intouch {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.highlighted {
+  color: #00688f;
+}

@@ -1,0 +1,28 @@
+<div class="contact-item"
+     ng-click="showContact(contact)">
+    <div class="user">
+        <a class="user-avatar">
+            <div class="user-avatar-img">
+                <img src="" ng-src="{{ctrl.contact.img}}" alt=""/>
+            </div>
+            <div ng-if="contact|showStatus"
+                 class="block-prof-status status" ng-class="contact|statusClassFromUser">
+                <i class="icon-status" ng-class="contact|statusClassFromUser"></i>
+            </div>
+        </a>
+    </div>
+    <div class="user-info">
+        <div class="name-user">{{ctrl.contact.name}}</div>
+        <div class="PhoneNumber">{{ctrl.contact.PhoneNumber}}</div>
+    </div>
+</div>
+<div class="action-contact">
+    <a ng-class="{active: contact.internal.isFav};">
+    </a>
+    <a>
+        <i class="icon-btn-contact icon-call" ng-click="makeCallToContact(contact, false)"></i>
+    </a>
+    <a ng-click="chatWithContact(contact)">
+        <i class ="icon-btn-contact icon-chat" ng-click="chatWithContact(contact)"></i>
+    </a>
+</div>

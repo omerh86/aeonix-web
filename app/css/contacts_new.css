@@ -1,0 +1,144 @@
+label {
+  font-size: 1.4rem;
+  color: #505050;
+}
+label.active {
+  color: #00688f;
+  font-weight: bold;
+}
+h1 {
+  font-size: 1.2rem;
+  color: #505050;
+  line-height: 1.2em;
+}
+h2 {
+  font-size: 0.8rem;
+  color: #979797;
+  line-height: 1.2em;
+}
+h3 {
+  font-size: 0.7rem;
+  color: #505050;
+  line-height: 1.2em;
+}
+.contact-item {
+  border-top: 1px solid #dedede;
+  padding: 0.3rem;
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+.contact-item .date-title {
+  background-color: #f2f7f9;
+  padding: 0.5rem;
+}
+.contact-item .contact-description {
+  display: flex;
+  flex-direction: row;
+}
+.contact-item .contact-description .contact-icon {
+  position: relative;
+  align-self: center;
+  padding-right: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.contact-item .contact-description .contact-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+.contact-item .contact-description .contact-info .row_1 {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  padding: 0.1rem;
+}
+.contact-item .contact-description .contact-info .row_1.end {
+  justify-content: flex-end;
+}
+.contact-item .contact-description .contact-info .row_1 .left {
+  flex-grow: 1;
+  display: flex;
+}
+.contact-item .contact-description .contact-info .row_2 {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0.1rem;
+}
+.contact-item .contact-description .contact-info .row_2.end {
+  justify-content: flex-end;
+}
+.contact-item .contact-description .contact-info .row_2 .left {
+  flex-grow: 1;
+  display: flex;
+}
+.contact-item .contact-description .contact-info .row_2 .right {
+  display: flex;
+}
+.contact-item .row_3 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.contact-item .row_3 div {
+  margin: 0.3rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.contact-item .row_3 div div {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.contact-item .row_3 div div i {
+  align-self: center;
+}
+.contact-item .row_3 div div h3 {
+  align-self: center;
+  padding: 0.5rem;
+}
+.call_direction {
+  position: absolute;
+}
+.call-history-row {
+  height: 1.5rem;
+  display: flex;
+}
+.unseen-messages {
+  width: 1.3rem;
+  height: 1.3rem;
+  background-color: #34AF23;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 24px;
+}
+.diabled-class {
+  opacity: 0.5;
+}
+.call-direction-icon {
+  font-size: 0.8rem;
+  color: #979797;
+  line-height: 1.2em;
+  vertical-align: middle;
+  margin-right: 0.3rem;
+}
+.call-history-row td.grow {
+  flex-grow: 1;
+}
+.call-history-row td.grow h2 {
+  text-align: center;
+}
+.call-history-row td div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

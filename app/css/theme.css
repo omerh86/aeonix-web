@@ -1,0 +1,23 @@
+label {
+  font-size: 1.4rem;
+  color: #505050;
+}
+label.active {
+  color: #00688f;
+  font-weight: bold;
+}
+h1 {
+  font-size: 1.2rem;
+  color: #505050;
+  line-height: 1.2em;
+}
+h2 {
+  font-size: 0.8rem;
+  color: #979797;
+  line-height: 1.2em;
+}
+h3 {
+  font-size: 0.7rem;
+  color: #505050;
+  line-height: 1.2em;
+}

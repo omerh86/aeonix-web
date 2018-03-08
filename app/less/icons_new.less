@@ -1,0 +1,150 @@
+@import "theme";
+
+.material-icons{
+    &.contact-icon{
+        font-size: @icont-font-small;
+        color: @secondary-color;
+    }
+}
+.small-icon{
+    width:1.9rem;
+    height: 1.9rem;
+}
+.medium-icon{
+    width:2.1rem;
+    height: 2.9rem;
+}
+
+.large-icon{
+    width:2.9rem;
+    height: 2.9rem;
+}
+.xlarge-icon{
+    width:3.4rem;
+    height: 3.4rem;
+}
+.title-icon{
+    width:2.1rem;
+    height: 2.1rem;
+}
+.user-icon{
+    width:2.8rem;
+    height: 2.8rem;
+}
+.round-icon{
+    border-radius: 50%;
+}
+
+.icon-background-decorator {
+    background-size: 100% auto !important;
+    background-repeat: no-repeat !important;
+    display: block;
+}
+//header-icon
+.intouch-icon {
+    .title-icon;
+    display: inline-block;
+    background: url("../images/icon-logotip.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background-size: contain !important;
+}
+.icon-head-back{
+    .title-icon;
+    display: inline-block;
+    background: url("../images/icon-head-back.svg") no-repeat;
+    background-size: contain !important;
+}
+
+//menu icons
+.menu-icon-menu {
+    .medium-icon;
+    .icon-background-decorator;
+     background: url("../images/head-menu/icon-menu.svg");
+     
+     &.active{
+        background: url("../images/head-menu/icon-menu-active.svg");
+     }
+ }
+.menu-icon-keypad {
+   .medium-icon;
+   .icon-background-decorator;
+    background: url("../images/head-menu/icon-keypad.svg");
+    
+    &.active{
+        background: url("../images/head-menu/icon-keypad-active.svg");
+    }
+}
+.menu-icon-contacts {
+    .medium-icon;
+    .icon-background-decorator;
+    background: url("../images/head-menu/icon-contacts.svg");
+
+    &.active{
+        background: url("../images/head-menu/icon-contacts-active.svg");
+    }
+}
+
+.menu-icon-voice-mail{
+    .large-icon;
+    .icon-background-decorator;
+    background: url("../images/head-menu/icon-voice-mail.svg");
+
+    &.active{
+        background: url("../images/head-menu/icon-voice-mail-active.svg");
+    }
+}
+
+.menu-icon-chat{
+    .large-icon;
+    .icon-background-decorator;
+    background: url("../images/head-menu/icon-chat.svg");
+    
+    &.active{
+        background: url("../images/head-menu/icon-chat-active.svg");
+    }
+}
+//contacts icons
+.icon-chat{
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-image: url("../images/video-button/icon-chat.svg");
+}
+
+.icon-call{
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-image: url("../images/buttons/icon-call.svg");
+}
+.icon-favorite {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-image: url("../images/element/icon-favorit.svg");
+    &.active{
+        background-image: url("../images/element/icon-favorit-active.svg");
+    }
+}
+.call_direction {
+    width: 1.4rem;
+    height: 1.4rem;
+    background: transparent url("../img/icons/general_sprite.png") -203px  -155px no-repeat;
+}
+.setting-icon{
+   .small-icon;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-image: url("../images/buttons/setting-icon.svg");
+}
+.info-icon{
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-image: url("../images/buttons/info-icon.svg");
+ }
+ .delete_chat{
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-image: url("../images/buttons/delete-icon.svg");
+}
+

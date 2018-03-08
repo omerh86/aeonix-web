@@ -1,0 +1,49 @@
+@import "theme";
+.intouch{
+    display: flex;
+    flex-direction:column;
+    ui-view{
+        flex-grow: 1;
+        display: flex;
+        flex-direction:column;
+    }
+}
+.item-digit{
+    margin-bottom:2em; 
+    .digit{
+        font-size: @large-font;
+        color: @theme-color;
+    }
+    .letters{
+        font-size: @tiny-font;
+        color: @secondary-color; 
+    }
+}
+.key-pad-container{
+    background-color: @dial-pad-bg-color;
+    border-top: 1px solid @border-color;
+    display: flex;
+    .keypad{
+        align-self: center;
+        flex-grow: 1;
+        padding: 1rem;
+    }
+}
+
+.list-shrink{
+    height: 100px;
+    overflow:scroll;
+}
+.list-expend{
+    height: 100%;
+}
+.fab{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    padding: 1rem;
+    color:white;
+    background-color: @theme-color;
+    border-radius: 50px;
+    font-size: @medium-font;
+}

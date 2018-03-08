@@ -1,0 +1,53 @@
+<html>
+<head>
+    <link rel="import" href="favorites-style.html">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Aeonix Touch</title>
+    <meta name="description" content="Aeonix Intouch">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+    <link rel="stylesheet" href="../../css/calling.css">
+    <link rel="stylesheet" href="../../css/chat.css">
+    <link rel="stylesheet" href="../../css/contact.css">
+    <link rel="stylesheet" href="../../css/custom-checkbox.css">
+    <link rel="stylesheet" href="../../css/custom-radio.css">
+    <link rel="stylesheet" href="../../css/dropdown.css">
+    <link rel="stylesheet" href="../../css/form.css">
+    <link rel="stylesheet" href="../../css/icon.css">
+    <link rel="stylesheet" href="../../css/keypad.css">
+    <link rel="stylesheet" href="../../css/list.css">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/menu.css">
+    <link rel="stylesheet" href="../../css/number-panel.css">
+    <link rel="stylesheet" href="../../css/popup.css">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/ng-scrollbar.min.css">
+    <link rel="stylesheet" href="../../css/call-log.css">
+    <link rel="stylesheet" href="../../css/chat-list.css">
+    <link rel="stylesheet" href="../../bower_components/angular_material/angular-material.min.css">
+</head>
+<body class="ng-scope">
+<div class="contact-item">
+    <div class="contact-info">
+        <img class="image" ng-src="{{ctrl.contact.img}}" alt=""/>
+        <div class="name">{{ctrl.contact.name}}</div>
+        <div class="status">{{ctrl.contact.PhoneNumber}}</div>
+        <div class="star"></div>
+        <div class="call"></div>
+        <div class="chat"></div>
+    </div>
+
+    <div class="contact-additional-info">
+        <a ng-class="{active: contact.internal.isFav};">
+        </a>
+        <a>
+            <i class="icon-btn-contact icon-call" ng-click="makeCallToContact(contact, false)"></i>
+        </a>
+        <a ng-click="chatWithContact(contact)">
+            <i class="icon-btn-contact icon-chat" ng-click="chatWithContact(contact)"></i>
+        </a>
+    </div>
+</div>
+</body>
+</html>
