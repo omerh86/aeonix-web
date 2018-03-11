@@ -13,6 +13,7 @@ function MainHeaderController($scope, $state, $rootScope, callsSrv, userSrv, dev
 
 
         function onStateChanged(newState) {
+            $scope.isShowUserImage = newState != "home.contactDetails";
             $scope.isSettingsActive = newState == 'home.settings'
             $scope.isDialPadActive = newState == 'home.dialPad';
             $scope.isContactsActive = (newState == 'home.favorites' || newState == 'home.callLog' || newState == 'home.groups');

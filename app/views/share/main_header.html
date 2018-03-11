@@ -5,7 +5,7 @@
             <div ng-show="!isBackShown" class="intouch-icon"></div>
             <div class="title">Aeonix Touch</div>
         </div>
-        <div class="controls-profile" ng-init="isShowExplicitPresenceMenu=false" ng-click="isShowExplicitPresenceMenu=!isShowExplicitPresenceMenu">
+        <div ng-show="isShowUserImage" class="controls-profile" ng-init="isShowExplicitPresenceMenu=false" ng-click="isShowExplicitPresenceMenu=!isShowExplicitPresenceMenu">
 
             <div>
                 <img class="user-icon round-icon" ng-show="user.image && user.image.length > 0" ng-src="{{user.image}}" />

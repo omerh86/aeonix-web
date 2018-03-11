@@ -128,9 +128,15 @@
 }
 
 .calling-action {
-    display: block;
+    display: flex;
     margin: 40px auto 0;
-    /*overflow: hidden;*/
+    margin-top: 40px;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+  
 }
 
 .video-overlay .calling-action {
