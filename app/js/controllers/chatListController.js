@@ -78,7 +78,7 @@ function ChatListController($state, $scope, $rootScope, $modal, $interval, utils
     function startNewChat(contact) {
         $scope.searchFilter = '';
         searchSrv.clearSearch("chatList");
-        var params = { contactId: contact.getContactId };
+        var params = { userName: contact.contact.userName };
         $state.go('home.chat', params);
     }
 

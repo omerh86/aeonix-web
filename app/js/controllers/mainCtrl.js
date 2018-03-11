@@ -203,7 +203,7 @@ function MainCtrl($scope,
                 if (event) {
                     event.stopPropagation();
                 }
-                var params = {contactId: contact.getContactId()};
+                var params = {userName: contact.contact.userName};
                 $state.go('home.chat', params);
             }catch(err) {
                 controllerLogger.error(err);

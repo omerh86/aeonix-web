@@ -1,8 +1,57 @@
 
 @import "theme";
 
+.contact-view{
+    flex-grow: 1;
+}
 .contact-details-container{
+    flex-grow: 1;
+    background-color: white;
     .head{
-        background-color: @contact-bg-color;
+        margin-top: 1px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
+        background-color: @theme-color;
+        .xlarge-icon{
+            margin: 0.5rem;
+        }
+        .name-title{
+            margin: 0.5rem;
+            font-size: @large-font;
+            color: white;
+        }
+    }
+    .body{
+        padding: 1rem;
+        .sub-title{
+          background-color:@contact-bg-color;   
+          font-size: @large-font;
+          margin-bottom: 1rem;
+        }
+       
+        .list{
+            .item{
+                margin-top: 1rem;
+                display: flex;
+                flex-direction: row; 
+                .left{
+                    display: flex;
+                    flex-direction: column; 
+                    flex-grow: 1;
+                 }
+                .right{
+                    display: flex;
+                    flex-direction: row; 
+                    flex-grow: 1;
+                    justify-content: flex-end;
+                    align-items: center;
+                    .contact-icon{
+                        margin: 0.4rem;
+                    }
+                }
+            }
+        }
     }
 }

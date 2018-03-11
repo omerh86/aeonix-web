@@ -68,7 +68,7 @@ function onAppRun($rootScope, deviceSrv, utilsSrv, loginSrv, $state, locale, $do
             appLogger.fine("UI ACTIVITY: click element/class: " + utilsSrv.elementToLog(e.target));
         });
 
-        $state.go('home');
+        $state.go('login');
 
     } catch (err) {
         appLogger.error(err);
@@ -76,7 +76,7 @@ function onAppRun($rootScope, deviceSrv, utilsSrv, loginSrv, $state, locale, $do
 }
 
 function onAppConfig($urlRouterProvider, $stateProvider) {
-    $urlRouterProvider.otherwise('/contacts');
+    $urlRouterProvider.otherwise('/login');
     $stateProvider
         .state(
             'login', {

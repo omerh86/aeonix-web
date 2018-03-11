@@ -11,7 +11,7 @@ ChatLink.prototype.isRelevant = function() {
 
 ChatLink.prototype.goBack = function($state) {
     var chat = this.chatSrv.findChatByContact(this.contact);
-     var params = {contactId: contact.getContactId()};
+     var params = {userName: contact.contact.userName};
     $state.go('home.chat', params);
 }
 
@@ -27,7 +27,7 @@ function ChatController($scope, $state, $stateParams, $rootScope, utilsSrv, chat
 
     function init() {
 
-        contact = contactSrv.getServerCacheContactByContactId($stateParams.contactId);
+        contact = contactSrv.getCacheContactByUserName($stateParams.userName);
         chat = chatSrv.getOrAddChat(contact);
         messageList = chat.messageList;
         releaseQueue = [];

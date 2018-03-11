@@ -3,10 +3,12 @@ function ContactList() {
 }
 
 ContactList.prototype.add = function(contact){
-    var key = contact.getContactId().toString();
-    if (this.map[key]==undefined){
-        this.map[key]= contact;
-    }
+   if(contact){
+        var key = contact.getContactId().toString();
+        if (this.map[key]==undefined){
+            this.map[key]= contact;
+        }
+   }
 }
 
 

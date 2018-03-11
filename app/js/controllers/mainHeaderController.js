@@ -13,14 +13,14 @@ function MainHeaderController($scope, $state, $rootScope, callsSrv, userSrv, dev
 
 
         function onStateChanged(newState) {
-            $scope.isSettingsActive = newState=='home.settings'
-            $scope.isDialPadActive = newState=='home.dialPad';
-            $scope.isContactsActive = (newState=='home.favorites'|| newState=='home.callLog'|| newState=='home.groups');
-            $scope.isChatListActive = newState=='home.chatList'
+            $scope.isSettingsActive = newState == 'home.settings'
+            $scope.isDialPadActive = newState == 'home.dialPad';
+            $scope.isContactsActive = (newState == 'home.favorites' || newState == 'home.callLog' || newState == 'home.groups');
+            $scope.isChatListActive = newState == 'home.chatList'
             $scope.showHeader = newState != "home.chat";
-            $scope.showTabs = (newState != "home.chat" && newState!="home.changePassword");
-            $scope.showCallQueueLink = (newState != "home.queue" && newState!="home.calls" && $scope.callQueue.length>0)
-            || (newState=="home.calls" && $scope.callQueue.length>1);
+            $scope.showTabs = (newState != "home.chat" && newState != "home.changePassword" && newState != 'home.contactDetails');
+            $scope.showCallQueueLink = (newState != "home.queue" && newState != "home.calls" && $scope.callQueue.length > 0)
+                || (newState == "home.calls" && $scope.callQueue.length > 1);
         }
 
         function onLoggedOut(event, reason) {
@@ -29,26 +29,26 @@ function MainHeaderController($scope, $state, $rootScope, callsSrv, userSrv, dev
             }
         }
 
-        $scope.setUserPresence = function(presence) {
+        $scope.setUserPresence = function (presence) {
             userSrv.setExplicitPresenceInfo(presence);
         };
 
-        $scope.showMenu = function($mdMenu, $event) {
+        $scope.showMenu = function ($mdMenu, $event) {
             $mdMenu.open($event);
         };
 
-        $scope.showSettings = function() {
+        $scope.showSettings = function () {
             $state.go("home.settings");
         };
 
-        $scope.showAbout = function() {
+        $scope.showAbout = function () {
             $state.go("home.about");
         };
 
-        $scope.logout = function() {
+        $scope.logout = function () {
             $rootScope.$broadcast("spinner:update", true);
 
-            var rememberedLogin =  storageSrv.get("##atouch", "login", "rememberedLogin");
+            var rememberedLogin = storageSrv.get("##atouch", "login", "rememberedLogin");
             if (rememberedLogin) {
                 rememberedLogin.password = null;
                 storageSrv.addOrUpdate("##atouch", "login", "rememberedLogin", rememberedLogin);
@@ -57,35 +57,35 @@ function MainHeaderController($scope, $state, $rootScope, callsSrv, userSrv, dev
             loginSrv.logout(eLogoutReason.userLoggedOut);
         };
 
-        $scope.about = function() {
+        $scope.about = function () {
 
         };
 
-        $scope.changePassword = function() {
+        $scope.changePassword = function () {
             $state.go("home.changePassword");
         };
 
 
-        $scope.callVoiceMail = function() {
+        $scope.callVoiceMail = function () {
             var voiceMailContact = voiceMailSrv.getUserVoiceMailContact();
             if (voiceMailContact) {
                 callsSrv.makeCallToContact(voiceMailContact);
-            }else{
+            } else {
                 alertSrv.setAlert("Error", "NoVoiceMailConfiguredClient");
             }
         };
 
-        $scope.showCallQueue = function() {
-          var stateToGo = callsSrv.getCalls().length==1 ? "home.calls" : "home.queue"
-          $state.go(stateToGo);
+        $scope.showCallQueue = function () {
+            var stateToGo = callsSrv.getCalls().length == 1 ? "home.calls" : "home.queue"
+            $state.go(stateToGo);
         };
 
-        releaseQueue.push($rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams) {
+        releaseQueue.push($rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
             onStateChanged(toState.name);
         }));
 
 
-       $scope.$on("$destroy", function () {
+        $scope.$on("$destroy", function () {
             for (var i = 0; i < releaseQueue.length; i++) {
                 releaseQueue[i]();
             }
@@ -94,7 +94,7 @@ function MainHeaderController($scope, $state, $rootScope, callsSrv, userSrv, dev
         function init(state) {
             $scope.presenceList = [ePresence.available, ePresence.meeting, ePresence.dnd];
             $scope.user = userSrv.getUserData();
-            controllerLogger.logCollapsed("user",$scope.user,eLogLevel.fine);
+            controllerLogger.logCollapsed("user", $scope.user, eLogLevel.fine);
             $scope.callQueue = callsSrv.getCalls();
             $scope.missedCallsCounter = callLogSrv.getMissedCallsCounter();
             $scope.unseenMessagesCounter = chatSrv.getUnseenMessagesCounter();
@@ -107,9 +107,9 @@ function MainHeaderController($scope, $state, $rootScope, callsSrv, userSrv, dev
 
         init();
 
-    }catch(err) {
+    } catch (err) {
         controllerLogger.error(err);
     }
 }
 
-controllersModule.controller('mainHeaderController', ['$scope', '$state', '$rootScope', 'callsSrv',  'userSrv', 'deviceSrv','phoneSrv','alertSrv','chatSrv', 'callLogSrv','contactSrv','voiceMailSrv','loginSrv','storageSrv', MainHeaderController]);
+controllersModule.controller('mainHeaderController', ['$scope', '$state', '$rootScope', 'callsSrv', 'userSrv', 'deviceSrv', 'phoneSrv', 'alertSrv', 'chatSrv', 'callLogSrv', 'contactSrv', 'voiceMailSrv', 'loginSrv', 'storageSrv', MainHeaderController]);

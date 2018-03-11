@@ -175,7 +175,7 @@ function ChatSrv($rootScope, infoSrv, contactSrv, loginSrv, storageSrv, utilsSrv
             var result = contactSrv.getServerContactByUserName(im.imEntity.sendingUser);
 
             logger.logMethodCompleted(arguments, result, eLogLevel.finer);
-            return esult;
+            return result;
         }
 
         function getChatContact(im) {

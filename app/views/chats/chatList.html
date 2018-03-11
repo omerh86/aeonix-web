@@ -55,6 +55,12 @@
                                 <h3>message</h3>
                             </div>
                         </div>
+                        <div ng-click="showContacts(chat.contact)">
+                            <div>
+                                <i class="material-icons contact-icon"> info</i>
+                                <h3>info</h3>
+                            </div>
+                        </div>
                         <div ng-click="deleteChat(chat, $event)">
                             <div>
                                 <i class="material-icons contact-icon"> delete</i>
@@ -90,19 +96,20 @@
                     </div>
                 </div>
                 <div ng-show="showDiv" class="row_3">
-                    <div ng-if="contact.internal.type.favoriteEnabled" ng-click="toggleFavorite($event, contact)">
+                    <div ng-class="{'diabled-class': !contact.internal.type.favoriteEnabled}" ng-click="!contact.internal.type.favoriteEnabled || toggleFavorite($event, contact)">
                         <div>
                             <i class="material-icons contact-icon"> {{contact.internal.isFav ? 'star':'star_border'}}</i>
                             <h3>favorite</h3>
                         </div>
                     </div>
-                    <div ng-if="contact.internal.type.callEnabled" ng-click="makeCallToContact(contact, false)">
+                    <div ng-class="{'diabled-class': !contact.internal.type.callEnabled}" ng-click="!contact.internal.type.callEnabled || makeCallToContact(contact, false)"
+                        ng-click="makeCallToContact(contact, false)">
                         <div>
                             <i class="material-icons contact-icon"> call</i>
                             <h3>call</h3>
                         </div>
                     </div>
-                    <div ng-if="contact.internal.type.chatEnabled" ng-click="chatWithContact(contact)">
+                    <div ng-click="!contact.internal.type.chatEnabled || chatWithContact(contact)" ng-class="{'diabled-class': !contact.internal.type.chatEnabled}">
                         <div>
                             <i class="material-icons contact-icon">chat_bubble_outline</i>
                             <h3>message</h3>

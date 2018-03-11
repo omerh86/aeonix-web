@@ -1,11 +1,10 @@
 
 function ContactDetailsLink(contact) {
-    this.contactId = contact.getContactId();
+
 }
 
 ContactDetailsLink.prototype.goBack = function ($state) {
-    var params = { contactId: this.contactId };
-    $state.go('home.contactDetails', params);
+    $state.go('home.contactDetails', $state.params);
 }
 
 
@@ -13,14 +12,8 @@ ContactDetailsLink.prototype.goBack = function ($state) {
 function ContactDetailsController($rootScope, $scope, $state, $stateParams, favoritesSrv, backNavigationSrv, cstaMonitoringSrv, contactSrv, callsSrv) {
 
     var releaseQueue = [];
-    var number = $stateParams.number;
-    var userName = $stateParams.userName;
-    if (userName) {
-        $scope.contact = contactSrv.getCacheContactByUserName(userName);
-    } else {
-        $scope.contacts = contactSrv.getCacheContactsByNumber(number);
-        $scope.contact = modifyCallContact($scope.contacts, number);
-    }
+
+    init();
 
     $scope.makeCallToAlias = function (alias, isVideo) {
         callsSrv.makeCallToAlias(alias);
@@ -32,9 +25,9 @@ function ContactDetailsController($rootScope, $scope, $state, $stateParams, favo
         }
     })
 
-    function onDestroy() {
+   function onDestroy() {
         angularUtils.unregisterController("chatController");
-        cstaMonitoringSrv.stopPresenceMonitors([contact]);
+        cstaMonitoringSrv.stopPresenceMonitors([$scope.contact]);
 
         for (var i = 0; i < releaseQueue.length; i++) {
             releaseQueue[i]();
@@ -59,10 +52,28 @@ function ContactDetailsController($rootScope, $scope, $state, $stateParams, favo
         return contact;
     }
 
+    function init() {
+        var number = $stateParams.number;
+        var userName = $stateParams.userName;
+        if (userName) {
+            $scope.contact = contactSrv.getCacheContactByUserName(userName);
+            $scope.contacts = [$scope.contact];
+        } else {
+            $scope.contacts = contactSrv.getCacheContactsByNumber(number);
+            $scope.contact = modifyCallContact($scope.contacts, number);
+        }
 
-    $scope.$on("$destroy", onDestroy);
-    cstaMonitoringSrv.startPresenceMonitoring([contact]);
-    $rootScope.showBack(true);
+        var names = "";
+        _.forEach($scope.contacts, function (i) {
+            names += (names ? ", " : "") + i.contact.displayName;
+        });
+        $scope.names = names;
+
+        $scope.$on("$destroy", onDestroy);
+        cstaMonitoringSrv.startPresenceMonitoring([$scope.contact]);
+        $rootScope.showBack(true);
+    }
+
 
 }
 
