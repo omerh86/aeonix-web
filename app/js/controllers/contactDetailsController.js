@@ -1,18 +1,21 @@
 
-function ContactDetailsLink(contact) {
+function ContactDetailsLink(number, userName) {
+    this.number = number;
+    this.userName = userName;
 
 }
 
 ContactDetailsLink.prototype.goBack = function ($state) {
-    $state.go('home.contactDetails', $state.params);
+    var params = { number: this.number, userName: this.userName };
+    $state.go('home.contactDetails', params);
 }
-
 
 
 function ContactDetailsController($rootScope, $scope, $state, $stateParams, favoritesSrv, backNavigationSrv, cstaMonitoringSrv, contactSrv, callsSrv) {
 
     var releaseQueue = [];
-
+    var number = $stateParams.number;
+    var userName = $stateParams.userName;
     init();
 
     $scope.makeCallToAlias = function (alias, isVideo) {
@@ -21,11 +24,11 @@ function ContactDetailsController($rootScope, $scope, $state, $stateParams, favo
 
     $scope.$on('$stateChangeStart', function onStateChangeStart(event, toState, toParams, fromState, fromParams, options) {
         if (!backNavigationSrv.isGoingBack()) {
-            backNavigationSrv.addToBackStack(new ContactDetailsLink(contact));
+            backNavigationSrv.addToBackStack(new ContactDetailsLink(number, userName));
         }
     })
 
-   function onDestroy() {
+    function onDestroy() {
         angularUtils.unregisterController("chatController");
         cstaMonitoringSrv.stopPresenceMonitors([$scope.contact]);
 
@@ -53,8 +56,8 @@ function ContactDetailsController($rootScope, $scope, $state, $stateParams, favo
     }
 
     function init() {
-        var number = $stateParams.number;
-        var userName = $stateParams.userName;
+        number = $stateParams.number;
+        userName = $stateParams.userName;
         if (userName) {
             $scope.contact = contactSrv.getCacheContactByUserName(userName);
             $scope.contacts = [$scope.contact];

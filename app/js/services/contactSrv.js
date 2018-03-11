@@ -461,6 +461,7 @@ function ContactSrv($rootScope, infoSrv, pictureSrv, storageSrv, loginSrv) {
         var relevantContacts = [];
         var numbers = [];
         for (var i = 0; i < collectionOfcontacts.length; i++) {
+            numbers = [];
             if (collectionOfcontacts[i].contact.aliases && collectionOfcontacts[i].contact.aliases.length) {
                 numbers = _.map(collectionOfcontacts[i].contact.aliases, "completeAliasName");
             }
@@ -482,6 +483,7 @@ function ContactSrv($rootScope, infoSrv, pictureSrv, storageSrv, loginSrv) {
         var relevantContacts = [];
         var numbers = [];
         for (var i = 0; i < collectionOfcontacts.length; i++) {
+            numbers = [];
             numbers = _.map(collectionOfcontacts[i].contact.aliases, "completeAliasName");
             numbers = numbers.concat(collectionOfcontacts[i].contact.extAliases);
             var relevantNumber = _.find(numbers, function (i) {
