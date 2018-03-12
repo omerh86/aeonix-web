@@ -225,7 +225,7 @@ function CallLogSrv($rootScope, infoSrv, contactSrv, loginSrv) {
                     if (isRestricted) {
                         user = Contact.anonymousContact;
                     } else if (isExternal) {
-                        var contacts = contactSrv.getContactsByNumber(alias2Dial);
+                        var contacts = contactSrv.getContactsByNumber(remoteName);
 
                         user = _modifyCallLogContact(contacts, alias2Dial);
                     } else {
@@ -237,12 +237,6 @@ function CallLogSrv($rootScope, infoSrv, contactSrv, loginSrv) {
                                 user = _modifyCallLogContact(contacts, alias2Dial);
                             }
                         }
-                        //  else {
-                        //     var contacts = contactSrv.getContactsByNumber(alias2Dial);
-
-                        //     user = _modifyCallLogContact(contacts, alias2Dial);
-                        //     // user = contactSrv.getContactByNumber(alias2Dial);
-                        // }
                     }
 
                     var callLogID = records[i].callLogList[0].callLogID;

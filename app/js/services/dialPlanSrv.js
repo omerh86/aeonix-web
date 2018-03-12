@@ -96,6 +96,7 @@ function DialPlanSrv($rootScope, infoSrv, loginSrv) {
    this.isFeatureCode = isFeatureCode;
    this.isLoginFeatureCode = isLoginFeatureCode;
    this.isLogoutFeatureCode = isLogoutFeatureCode;
+   this.getOutsideLineAccessCode= getOutsideLineAccessCode
 
 
 }

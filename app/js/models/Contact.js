@@ -63,6 +63,7 @@ Contact.createFromAlias = function (alias, perm) {
         "type": type,
         lastSearchKey: "",
         number: "",
+        primaryNumber: "",
         displayName: alias,
         isFav: false,
         status: UserStatusInfo.unknown,
@@ -100,6 +101,7 @@ Contact.createFromUserName = function (userName) {
         "type": type,
         lastSearchKey: "",
         number: "",
+        primaryNumber: "",
         displayName: "",
         isFav: false,
         status: UserStatusInfo.unknown,
@@ -135,6 +137,7 @@ Contact.createNWayConference = function () {
         type: eContactType.nWayConference,
         lastSearchKey: "",
         number: "",
+        primaryNumber: "",
         displayName: "Conference",
         isFav: false,
         status: UserStatusInfo.unknown,
@@ -170,6 +173,7 @@ Contact.createAnonymous = function () {
         type: eContactType.externalAnonymous,
         lastSearchKey: "",
         number: "",
+        primaryNumber: "",
         displayName: "Anonymous",
         isFav: false,
         status: UserStatusInfo.unknown,
@@ -206,6 +210,7 @@ Contact.createExternal = function (displayName, numbers, img = "img/user-placeho
         type: eContactType.external,
         lastSearchKey: "",
         number: "",
+        primaryNumber: "",
         displayName: displayName,
         isFav: false,
         status: UserStatusInfo.unknown,
@@ -251,6 +256,7 @@ Contact.createRestrictedUser = function (alias) {
         type: eContactType.restrictedUser,
         lastSearchKey: "",
         number: "",
+        primaryNumber: "",
         displayName: "restricted",
         isFav: false,
         status: UserStatusInfo.unknown,
@@ -306,6 +312,7 @@ Contact.createFromServerGroupInfo = function (groupInfo) {
         "type": type,
         lastSearchKey: "",
         number: "",
+        primaryNumber: "",
         displayName: displayName,
         isFav: false,
         status: UserStatusInfo.unknown,
@@ -336,6 +343,7 @@ Contact.createFromServerContactInfo = function (contactInfo, serverPresenceInfo,
         "type": type,
         lastSearchKey: "",
         number: "",
+        primaryNumber: "",
         displayName: contactInfo.displayName,
         isFav: false,
         status: UserStatusInfo.fromServerPresenceInfo(serverPresenceInfo),
@@ -417,8 +425,10 @@ Contact.prototype.getAlias = function () {
     logger.logGroup("getAlias called", ["this"], [this], eLogLevel.finer);
 
     var alias;
-
-    if (this.contact.aliases && this.contact.aliases[0]) {
+    if (this.internal.primaryNumber) {
+        alias = this.internal.primaryNumber
+    }
+    else if (this.contact.aliases && this.contact.aliases[0]) {
         alias = this.contact.aliases[0].completeAliasName;
     } else if (this.contact.extAliases) {
         alias = this.contact.extAliases[0];

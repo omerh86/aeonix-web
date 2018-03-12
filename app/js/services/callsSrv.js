@@ -1,6 +1,6 @@
 
 
-function CallsSrv(Call, contactSrv, connectionSrv, phoneSrv, $timeout, $rootScope) {
+function CallsSrv(Call, contactSrv, connectionSrv, phoneSrv, $timeout, $rootScope, settingsSrv, dialPlanSrv) {
 
     var serviceLogger = logSrv.getLogger("callsSrv");
 
@@ -64,16 +64,15 @@ function CallsSrv(Call, contactSrv, connectionSrv, phoneSrv, $timeout, $rootScop
         return connectedCall;
     }
 
-    function makeCall(contact) {
+    function makeCall(contact, number) {
         var logger = serviceLogger.logMethodCall(arguments, eLogLevel.finer);
 
         var connected = getConnectedCall();
         if (connected != null) {
-            var params = [contact];
+            var params = [contact, number];
             holdCallAndExecute(connected, makeCall, params);
         } else {
-            var alias = contact.getAlias();
-            phoneSrv.makeCall(alias, false);
+            phoneSrv.makeCall(number, false);
         }
 
         logger.logMethodCompleted(arguments, getMembers(), eLogLevel.finer);
@@ -368,8 +367,12 @@ function CallsSrv(Call, contactSrv, connectionSrv, phoneSrv, $timeout, $rootScop
             call.contact = Contact.anonymousContact;
         } else {
             var alias = call.getRemoteNumber();
-            var contacts = contactSrv.getContactsByNumber(alias);
-            call.contact = modifyCallContact(contacts, alias);
+            var preFixedNumber = alias;
+            if (settingsSrv.getSettings().useOutsideLineAccessCode && alias.substring(0, 1) == dialPlanSrv.getOutsideLineAccessCode()) {
+                var preFixedNumber = alias.substring(1, alias.length);
+            }
+            var contacts = contactSrv.getContactsByNumber(preFixedNumber);
+            call.contact = modifyCallContact(contacts, preFixedNumber);
         }
 
         logger.logMethodCompleted(arguments, call, eLogLevel.finer);
@@ -395,17 +398,25 @@ function CallsSrv(Call, contactSrv, connectionSrv, phoneSrv, $timeout, $rootScop
 
     function makeCallToContact(contact) {
         var logger = serviceLogger.logMethodCall(arguments, eLogLevel.finer);
+        number = contact.getAlias();
 
-        makeCall(contact);
+        if (contact.internal.type.name == 'external' && settingsSrv.getSettings().useOutsideLineAccessCode) {
+            number = dialPlanSrv.getOutsideLineAccessCode() + number;
+        }
+
+        makeCall(contact, number);
 
         logger.logMethodCompleted(arguments, getMembers(), eLogLevel.finer);
     };
 
     function makeCallToAlias(alias) {
         var logger = serviceLogger.logMethodCall(arguments, eLogLevel.finer);
-
-        var contacts = contactSrv.getContactsByNumber(alias);
-        makeCall(modifyCallContact(contacts, alias));
+        var preFixedNumber = alias;
+        if (settingsSrv.getSettings().useOutsideLineAccessCode && alias.substring(0, 1) == dialPlanSrv.getOutsideLineAccessCode()) {
+            var preFixedNumber = alias.substring(1, alias.length);
+        }
+        var contacts = contactSrv.getContactsByNumber(preFixedNumber);
+        makeCall(modifyCallContact(contacts, preFixedNumber), alias);
 
         logger.logMethodCompleted(arguments, getMembers(), eLogLevel.finer);
     };
@@ -555,5 +566,5 @@ function CallsSrv(Call, contactSrv, connectionSrv, phoneSrv, $timeout, $rootScop
 }
 
 var servicesModule = angular.module('aeonixApp.services');
-servicesModule.service('callsSrv', ['Call', 'contactSrv', 'connectionSrv', 'phoneSrv', '$timeout', '$rootScope', CallsSrv]);
+servicesModule.service('callsSrv', ['Call', 'contactSrv', 'connectionSrv', 'phoneSrv', '$timeout', '$rootScope', 'settingsSrv', 'dialPlanSrv', CallsSrv]);
 

@@ -1,4 +1,4 @@
-function ContactSrv($rootScope, infoSrv, pictureSrv, storageSrv, loginSrv) {
+function ContactSrv($rootScope, infoSrv, pictureSrv, storageSrv, loginSrv, settingsSrv, dialPlanSrv) {
 
     var service = this;
     var serviceLogger = logSrv.getLogger("contactSrv");
@@ -577,4 +577,4 @@ function ContactSrv($rootScope, infoSrv, pictureSrv, storageSrv, loginSrv) {
 
 var servicesModule = angular.module('aeonixApp.services');
 
-servicesModule.service('contactSrv', ['$rootScope', 'infoSrv', 'pictureSrv', 'storageSrv', 'loginSrv', ContactSrv]);
+servicesModule.service('contactSrv', ['$rootScope', 'infoSrv', 'pictureSrv', 'storageSrv', 'loginSrv', 'settingsSrv', 'dialPlanSrv', ContactSrv]);

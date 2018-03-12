@@ -34,7 +34,7 @@ function SettingsSrv($rootScope, loginSrv, storageSrv) {
             sound: "orig",
             level: "FINE",
             sizeLog: 10,
-            useOutsideLineAccessCode: false
+            useOutsideLineAccessCode: true
         };
 
         logger.logMethodCompleted(arguments, settings, eLogLevel.finer);

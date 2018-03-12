@@ -1,4 +1,4 @@
-function SearchSrv($rootScope, infoSrv, loginSrv, contactSrv, $timeout, settingsSrv) {
+function SearchSrv($rootScope, infoSrv, loginSrv, contactSrv, $timeout, settingsSrv, dialPlanSrv) {
 
 
     var serviceLogger = logSrv.getLogger("searchSrv");
@@ -109,6 +109,9 @@ function SearchSrv($rootScope, infoSrv, loginSrv, contactSrv, $timeout, settings
 
     function search(searchId, filter, aliasOnly) {
         var logger = serviceLogger.logMethodCall(arguments, eLogLevel.finer);
+        if (searchId == 'dialPad' && settingsSrv.getSettings().useOutsideLineAccessCode && filter.substring(0, 1) == dialPlanSrv.getOutsideLineAccessCode()) {
+            filter = filter.substring(1, filter.length);
+        }
         var searchInstance = findOrAddSearchInstance(searchId);
         searchInstance.currentFilter = filter;
         searchInstance.searchByAliasOnly = aliasOnly;
@@ -118,7 +121,7 @@ function SearchSrv($rootScope, infoSrv, loginSrv, contactSrv, $timeout, settings
         } else {
 
             //Get device contacts
-            var rawDeviceContacts = contactSrv.getRawContactsFromDevice(searchInstance.currentFilter, searchInstance.searchByAliasOnly,false);
+            var rawDeviceContacts = contactSrv.getRawContactsFromDevice(searchInstance.currentFilter, searchInstance.searchByAliasOnly, false);
             rawDeviceContacts.forEach(function (i) {
                 contactSrv.addOrUpdateContactWithDeviceRawContact(i);
             });
@@ -327,4 +330,4 @@ function SearchSrv($rootScope, infoSrv, loginSrv, contactSrv, $timeout, settings
 }
 
 var servicesModule = angular.module('aeonixApp.services');
-servicesModule.service('searchSrv', ['$rootScope', 'infoSrv', 'loginSrv', 'contactSrv', '$timeout', 'settingsSrv', SearchSrv]);
+servicesModule.service('searchSrv', ['$rootScope', 'infoSrv', 'loginSrv', 'contactSrv', '$timeout', 'settingsSrv', 'dialPlanSrv', SearchSrv]);
